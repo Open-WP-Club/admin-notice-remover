@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Admin Notice Remover
  * Description: Removes specific admin notices from WordPress admin panel
@@ -11,57 +12,80 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Admin_Notice_Remover {
-    // Store notices to remove
-    private $notices_to_remove = array(
-        array(
-            'class' => 'themeisle-sale',
-            'content_partial' => 'Themeisle Black Friday Sale'
-        )
-        // Add more notices here following the same format
-    );
+class Admin_Notice_Remover
+{
+    private $notices_to_remove = array();
+    private $cache_key = 'admin_notice_remover_cache';
+    private $cache_expiration = 3600; // 1 hour in seconds
 
-    public function __construct() {
-        // Hook into WordPress - priority 9999 to run after notices are added
+    public function __construct()
+    {
+        // Load notices from cache or config file
+        $this->load_notices();
+
+        // Hook into WordPress with high priority
         add_action('admin_notices', array($this, 'remove_notices'), 9999);
         add_action('network_admin_notices', array($this, 'remove_notices'), 9999);
         add_action('all_admin_notices', array($this, 'remove_notices'), 9999);
     }
 
     /**
+     * Load notices from cache or config file
+     */
+    private function load_notices()
+    {
+        // Try to get from cache first
+        $cached_notices = wp_cache_get($this->cache_key);
+
+        if (false !== $cached_notices) {
+            $this->notices_to_remove = $cached_notices;
+            return;
+        }
+
+        // If not in cache, load from config file
+        $config_file = dirname(__FILE__) . '/notices-config.php';
+        if (file_exists($config_file)) {
+            $notices = include $config_file;
+            if (is_array($notices)) {
+                $this->notices_to_remove = $notices;
+                // Cache the notices
+                wp_cache_set($this->cache_key, $this->notices_to_remove, '', $this->cache_expiration);
+            }
+        }
+    }
+
+    /**
      * Remove specified notices from the page
      */
-    public function remove_notices() {
-        global $wp_filter;
-        
-        // Start output buffering
-        ob_start(function($output) {
-            // Load output into DOMDocument for proper HTML parsing
+    public function remove_notices()
+    {
+        if (empty($this->notices_to_remove)) {
+            return;
+        }
+
+        ob_start(function ($output) {
+            static $processed = false;
+            if ($processed) {
+                return $output;
+            }
+            $processed = true;
+
             $dom = new DOMDocument();
-            
-            // Suppress warnings from malformed HTML
             libxml_use_internal_errors(true);
             $dom->loadHTML($output, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             libxml_clear_errors();
-            
-            // Create XPath object
+
             $xpath = new DOMXPath($dom);
-            
-            // Find and remove notices
+
             foreach ($this->notices_to_remove as $notice) {
-                // Find elements by class
                 $elements = $xpath->query("//*[contains(@class, '" . $notice['class'] . "')]");
-                
-                // Remove each matching element
                 foreach ($elements as $element) {
                     $element->parentNode->removeChild($element);
                 }
-                
-                // If content_partial is specified, also look for notices containing that text
+
                 if (!empty($notice['content_partial'])) {
                     $elements = $xpath->query("//*[contains(text(), '" . $notice['content_partial'] . "')]");
                     foreach ($elements as $element) {
-                        // Walk up the DOM to find the notice container
                         $parent = $element;
                         while ($parent && !$this->is_notice_wrapper($parent)) {
                             $parent = $parent->parentNode;
@@ -72,37 +96,26 @@ class Admin_Notice_Remover {
                     }
                 }
             }
-            
-            // Return the modified HTML
+
             return $dom->saveHTML();
         });
     }
 
-    /**
-     * Check if an element is a notice wrapper
-     */
-    private function is_notice_wrapper($element) {
-        return $element->nodeType === XML_ELEMENT_NODE && 
-               (strpos($element->getAttribute('class'), 'notice') !== false || 
+    private function is_notice_wrapper($element)
+    {
+        return $element->nodeType === XML_ELEMENT_NODE &&
+            (strpos($element->getAttribute('class'), 'notice') !== false ||
                 strpos($element->getAttribute('class'), 'update-nag') !== false);
     }
 
     /**
-     * Add a new notice to remove
-     * 
-     * @param string $class CSS class of the notice
-     * @param string $content_partial Partial content to identify the notice (optional)
+     * Clear the notices cache
      */
-    public function add_notice_to_remove($class, $content_partial = '') {
-        $this->notices_to_remove[] = array(
-            'class' => $class,
-            'content_partial' => $content_partial
-        );
+    public function clear_cache()
+    {
+        wp_cache_delete($this->cache_key);
     }
 }
 
 // Initialize the plugin
 $admin_notice_remover = new Admin_Notice_Remover();
-
-// Example of how to add more notices to remove
-// $admin_notice_remover->add_notice_to_remove('another-notice-class', 'Partial content of notice');
