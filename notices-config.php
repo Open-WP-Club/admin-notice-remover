@@ -1,17 +1,10 @@
 <?php
-
-/**
- * Configuration file for Admin Notice Remover
- * Add notices to remove in this file
- */
-
 return array(
-  // Themeisle sale notice
+  // Themeisle notices
   array(
     'class' => 'themeisle-sale',
     'content_partial' => 'Themeisle Black Friday Sale'
   ),
-  // Themeisle dashboard widget
   array(
     'class' => 'postbox',
     'content_partial' => 'WordPress Guides/Tutorials'
@@ -20,13 +13,27 @@ return array(
     'class' => 'themeisle',
     'content_partial' => ''
   ),
-  // WebToffee BFCM banner
+  // WebToffee banner
   array(
     'class' => 'wtier-bfcm-banner-2024',
-    'content_partial' => 'Black Friday Cyber Monday'
+    'content_partial' => ''
+  ),
+  // Dokan notices
+  array(
+    'class' => 'dokan-admin-notices-wrap',
+    'content_partial' => ''
   ),
   array(
-    'class' => 'wtier-bfcm-banner-body',
+    'class' => 'dokan-admin-notice',
+    'content_partial' => ''
+  ),
+  // Elementor notices
+  array(
+    'class' => 'e-notice',
+    'content_partial' => 'site_mailer_promotion'
+  ),
+  array(
+    'class' => 'e-notice--cta',
     'content_partial' => ''
   )
 );
