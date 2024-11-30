@@ -1,39 +1,48 @@
 <?php
 return array(
-  // Themeisle notices
-  array(
-    'class' => 'themeisle-sale',
-    'content_partial' => 'Themeisle Black Friday Sale'
-  ),
-  array(
-    'class' => 'postbox',
-    'content_partial' => 'WordPress Guides/Tutorials'
-  ),
-  array(
-    'class' => 'themeisle',
-    'content_partial' => ''
-  ),
-  // WebToffee banner
-  array(
-    'class' => 'wtier-bfcm-banner-2024',
-    'content_partial' => ''
-  ),
-  // Dokan notices
-  array(
-    'class' => 'dokan-admin-notices-wrap',
-    'content_partial' => ''
-  ),
-  array(
-    'class' => 'dokan-admin-notice',
-    'content_partial' => ''
-  ),
-  // Elementor notices
-  array(
-    'class' => 'e-notice',
-    'content_partial' => 'site_mailer_promotion'
-  ),
-  array(
-    'class' => 'e-notice--cta',
-    'content_partial' => ''
-  )
+    // Themeisle notices
+    array(
+        'class' => 'themeisle-sale',
+        'content_partial' => 'Themeisle Black Friday Sale'
+    ),
+    array(
+        'class' => 'postbox',
+        'content_partial' => 'WordPress Guides/Tutorials'
+    ),
+    array(
+        'class' => 'themeisle',
+        'content_partial' => ''
+    ),
+    // WebToffee banner
+    array(
+        'class' => 'wtier-bfcm-banner-2024',
+        'content_partial' => ''
+    ),
+    // Dokan notices
+    array(
+        'class' => 'dokan-admin-notices-wrap',
+        'content_partial' => ''
+    ),
+    array(
+        'class' => 'dokan-admin-notice',
+        'content_partial' => ''
+    ),
+    // Elementor notices
+    array(
+        'class' => 'e-notice',
+        'content_partial' => 'site_mailer_promotion'
+    ),
+    array(
+        'class' => 'e-notice--cta',
+        'content_partial' => ''
+    ),
+    // Super Page Cache banner
+    array(
+        'class' => 'swcfpc-banner',
+        'content_partial' => ''
+    ),
+    array(
+        'id' => 'tsdk_banner',
+        'content_partial' => ''
+    )
 );
