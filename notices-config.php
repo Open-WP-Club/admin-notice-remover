@@ -18,13 +18,17 @@ return array(
     'class' => 'wtier-bfcm-banner-2024',
     'content_partial' => ''
   ),
-  // Dokan notices
+  // Dokan notices - enhanced selectors
   array(
     'class' => 'dokan-admin-notices-wrap',
     'content_partial' => ''
   ),
   array(
     'class' => 'dokan-admin-notice',
+    'content_partial' => ''
+  ),
+  array(
+    'class' => 'dokan-promotion',
     'content_partial' => ''
   ),
   // Elementor notices
@@ -35,5 +39,23 @@ return array(
   array(
     'class' => 'e-notice--cta',
     'content_partial' => ''
+  ),
+  // Super Page Cache banner
+  array(
+    'class' => 'swcfpc-banner',
+    'content_partial' => ''
+  ),
+  array(
+    'id' => 'tsdk_banner',
+    'content_partial' => ''
+  ),
+  // UpdraftPlus notices
+  array(
+    'id' => 'updraft-dashnotice',
+    'content_partial' => ''
+  ),
+  array(
+    'class' => 'updated',
+    'content_partial' => 'Thank you for installing UpdraftPlus'
   )
 );
