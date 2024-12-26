@@ -57,5 +57,14 @@ return array(
   array(
     'class' => 'updated',
     'content_partial' => 'Thank you for installing UpdraftPlus'
+  ),
+  // Webp Converter for Media notices
+  array(
+    'data-notice' => 'webp-converter-for-media',
+    'content_partial' => ''
+  ),
+  array(
+    'class' => 'webpcContent--notice',
+    'content_partial' => ''
   )
 );
