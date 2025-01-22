@@ -66,5 +66,9 @@ return array(
   array(
     'class' => 'webpcContent--notice',
     'content_partial' => ''
+  ),
+  array(
+    'class' => 'updraft-ad-container',
+    'content_partial' => ''
   )
 );
