@@ -70,5 +70,14 @@ return array(
   array(
     'class' => 'updraft-ad-container',
     'content_partial' => ''
+  ),
+  // DiveWP feedback notice
+  array(
+    'class' => 'divewp-feedback-notice',
+    'content_partial' => 'Message from Oleg Petrov'
+  ),
+  array(
+    'id' => 'divewp-feedback-heading',
+    'content_partial' => ''
   )
 );
